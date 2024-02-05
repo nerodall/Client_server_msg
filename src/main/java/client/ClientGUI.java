@@ -4,6 +4,8 @@ import server.ServerWindow;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class ClientGUI extends JFrame {
     private static final int WIDTH = 400;
@@ -46,6 +48,7 @@ public class ClientGUI extends JFrame {
 
         setVisible(true);
     }
+
 
     public static void main(String[] args) {
         new ClientGUI(new ServerWindow());
