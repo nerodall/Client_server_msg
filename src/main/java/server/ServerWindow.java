@@ -16,15 +16,25 @@ public class ServerWindow extends JFrame {
     private static final int WIDTH = 500;
     private static final int HEIGHT = 500;
 
+
     private final JButton btnStart = new JButton("Start");
     private final JButton btnStop = new JButton("Stop");
     private final JTextArea log = new JTextArea();
 
     private boolean isServerWorking;
-
+    private boolean newMessage;
 
     public static void main(String[] args) {
         new ServerWindow();
+    }
+
+    public void setNewMessage(boolean newMessage) {
+        this.newMessage = newMessage;
+    }
+
+
+    public boolean isNewMessage() {
+        return newMessage;
     }
 
     public ServerWindow() {
@@ -34,6 +44,7 @@ public class ServerWindow extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 isServerWorking = false;
                 System.out.println("Server stopped " + isServerWorking + "\n");
+                log.append("Server stopped \n");
             }
         });
 
@@ -42,11 +53,7 @@ public class ServerWindow extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 isServerWorking = true;
                 System.out.println("Server started " + isServerWorking + "\n");
-                try {
-                    readLog();
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
+                log.append("Server started \n");
             }
         });
 
@@ -62,22 +69,34 @@ public class ServerWindow extends JFrame {
 
         setVisible(true);
 
-
     }
 
-   public void readLog() throws IOException {
+    public StringBuilder readLog() throws IOException {
+        StringBuilder sb = new StringBuilder();
         List<String> lines = Files.readAllLines(Paths.get(
                 "D:\\GB\\Java Core\\Client_Server_msg\\src\\main\\java\\server\\log.txt"));
         for (String line : lines) {
-            log.append(line);
+            sb.append(line);
+            sb.append("\n");
         }
+        return sb;
     }
 
-   public void writeLog (String msg) throws IOException {
+    public void writeLog(String msg) throws IOException {
         FileWriter fw = new FileWriter("D:\\GB\\Java Core\\Client_Server_msg\\src\\main\\java\\server\\log.txt",
-                false);
-        fw.write(msg);
+                true);
+        fw.append(msg).append("\n");
         fw.flush();
-        readLog();
+    }
+
+    public String readLastMsg() throws IOException {
+
+        List<String> lines = Files.readAllLines(Paths.get(
+                "D:\\GB\\Java Core\\Client_Server_msg\\src\\main\\java\\server\\log.txt"));
+        return lines.getLast() + "\n";
+    }
+
+    public boolean isServerWorking() {
+        return isServerWorking;
     }
 }
