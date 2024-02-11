@@ -16,7 +16,7 @@ public class ServerWindow extends JFrame {
     private static final int WIDTH = 500;
     private static final int HEIGHT = 500;
 
-
+    //private static final String pathLog = "D:\\GB\\Java Core\\Client_Server_msg\\src\\main\\java\\server\\log.txt";
     private final JButton btnStart = new JButton("Start");
     private final JButton btnStop = new JButton("Stop");
     private final JTextArea log = new JTextArea();
@@ -39,6 +39,7 @@ public class ServerWindow extends JFrame {
 
     public ServerWindow() {
         isServerWorking = false;
+
         btnStop.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -70,11 +71,10 @@ public class ServerWindow extends JFrame {
         setVisible(true);
 
     }
-
+/*
     public StringBuilder readLog() throws IOException {
         StringBuilder sb = new StringBuilder();
-        List<String> lines = Files.readAllLines(Paths.get(
-                "D:\\GB\\Java Core\\Client_Server_msg\\src\\main\\java\\server\\log.txt"));
+        List<String> lines = Files.readAllLines(Paths.get(pathLog));
         for (String line : lines) {
             sb.append(line);
             sb.append("\n");
@@ -83,19 +83,17 @@ public class ServerWindow extends JFrame {
     }
 
     public void writeLog(String msg) throws IOException {
-        FileWriter fw = new FileWriter("D:\\GB\\Java Core\\Client_Server_msg\\src\\main\\java\\server\\log.txt",
-                true);
+        FileWriter fw = new FileWriter(pathLog, true);
         fw.append(msg).append("\n");
         fw.flush();
     }
 
     public String readLastMsg() throws IOException {
 
-        List<String> lines = Files.readAllLines(Paths.get(
-                "D:\\GB\\Java Core\\Client_Server_msg\\src\\main\\java\\server\\log.txt"));
+        List<String> lines = Files.readAllLines(Paths.get(pathLog));
         return lines.getLast() + "\n";
     }
-
+*/
     public boolean isServerWorking() {
         return isServerWorking;
     }

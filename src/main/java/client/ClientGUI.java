@@ -1,5 +1,6 @@
 package client;
 
+import server.FileLogMsg;
 import server.ServerWindow;
 
 import javax.swing.*;
@@ -7,7 +8,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 
-public class ClientGUI extends JFrame {
+public class ClientGUI extends JFrame{
+    FileLogMsg serverLog;
     private static final int WIDTH = 400;
     private static final int HEIGHT = 300;
 
@@ -30,6 +32,8 @@ public class ClientGUI extends JFrame {
         setLocationRelativeTo(null);
         setSize(WIDTH, HEIGHT);
         setTitle("Chat client");
+
+        serverLog = new FileLogMsg();
 
         panelTop.add(tfIPAdress);
         panelTop.add(tfPort);
@@ -60,7 +64,7 @@ public class ClientGUI extends JFrame {
                     tfPort.setEnabled(false);
                     tfPassword.setEnabled(false);
                     try {
-                        log.append(sw.readLog().toString());
+                        log.append(serverLog.readLog().toString());
                     } catch (IOException ex) {
                         throw new RuntimeException(ex);
                     }
@@ -76,8 +80,8 @@ public class ClientGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    sw.writeLog(tfLogin.getText() + ":" + tfMessage.getText());
-                    log.append(sw.readLastMsg());
+                    serverLog.writeLog(tfLogin.getText() + ":" + tfMessage.getText());
+                    log.append(serverLog.readLastMsg());
                     sw.setNewMessage(true);
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
@@ -116,7 +120,7 @@ public class ClientGUI extends JFrame {
                 if (sw.isNewMessage()) {
                     sw.setNewMessage(false);
                     try {
-                        log.append(sw.readLastMsg());
+                        log.append(serverLog.readLastMsg());
                     } catch (IOException ex) {
                         throw new RuntimeException(ex);
                     }
@@ -145,5 +149,6 @@ public class ClientGUI extends JFrame {
     public static void main(String[] args) {
         new ClientGUI(new ServerWindow());
     }
+
 
 }
