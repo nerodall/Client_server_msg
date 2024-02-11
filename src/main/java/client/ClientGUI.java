@@ -1,6 +1,5 @@
 package client;
 
-import server.FileLogMsg;
 import server.ServerWindow;
 
 import javax.swing.*;
