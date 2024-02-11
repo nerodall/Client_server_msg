@@ -9,7 +9,7 @@ import java.awt.event.*;
 import java.io.IOException;
 
 public class ClientGUI extends JFrame{
-    FileLogMsg serverLog;
+
     private static final int WIDTH = 400;
     private static final int HEIGHT = 300;
 
@@ -33,7 +33,7 @@ public class ClientGUI extends JFrame{
         setSize(WIDTH, HEIGHT);
         setTitle("Chat client");
 
-        serverLog = new FileLogMsg();
+
 
         panelTop.add(tfIPAdress);
         panelTop.add(tfPort);
@@ -64,7 +64,7 @@ public class ClientGUI extends JFrame{
                     tfPort.setEnabled(false);
                     tfPassword.setEnabled(false);
                     try {
-                        log.append(serverLog.readLog().toString());
+                        log.append(sw.getServerLog().readLog().toString());
                     } catch (IOException ex) {
                         throw new RuntimeException(ex);
                     }
@@ -80,8 +80,8 @@ public class ClientGUI extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    serverLog.writeLog(tfLogin.getText() + ":" + tfMessage.getText());
-                    log.append(serverLog.readLastMsg());
+                    sw.getServerLog().writeLog(tfLogin.getText() + ":" + tfMessage.getText());
+                    log.append(sw.getServerLog().readLastMsg());
                     sw.setNewMessage(true);
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
@@ -120,7 +120,7 @@ public class ClientGUI extends JFrame{
                 if (sw.isNewMessage()) {
                     sw.setNewMessage(false);
                     try {
-                        log.append(serverLog.readLastMsg());
+                        log.append(sw.getServerLog().readLastMsg());
                     } catch (IOException ex) {
                         throw new RuntimeException(ex);
                     }
